@@ -25,6 +25,9 @@ using Microsoft.OpenApi.Models;
 using MinimalApi.Endpoint.Configurations.Extensions;
 using MinimalApi.Endpoint.Extensions;
 
+// The exception with stacktrace can be seen on Azure Portal under App Service -> Log stream
+throw new Exception("Cannot move further");
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationInsightsTelemetry();
