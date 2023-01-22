@@ -17,6 +17,9 @@ public static class ConfigureCoreServices
         services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
         services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
+        services.AddHttpClient();
+        services.AddScoped<IDeliveryService>(s => new HttpDeliveryService(s.GetRequiredService<IHttpClientFactory>(),
+            configuration.GetValue<string>("HttpDeliveryServiceRootUri")));
         services.AddScoped<IBasketService, BasketService>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IBasketQueryService, BasketQueryService>();
