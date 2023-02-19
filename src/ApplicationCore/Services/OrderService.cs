@@ -13,16 +13,19 @@ public class OrderService : IOrderService
 {
     private readonly IRepository<Order> _orderRepository;
     private readonly IUriComposer _uriComposer;
+    private readonly IOrderItemsReserver _orderItemsReserver;
     private readonly IRepository<Basket> _basketRepository;
     private readonly IRepository<CatalogItem> _itemRepository;
 
     public OrderService(IRepository<Basket> basketRepository,
         IRepository<CatalogItem> itemRepository,
         IRepository<Order> orderRepository,
-        IUriComposer uriComposer)
+        IUriComposer uriComposer,
+        IOrderItemsReserver orderItemsReserver)
     {
         _orderRepository = orderRepository;
         _uriComposer = uriComposer;
+        _orderItemsReserver = orderItemsReserver;
         _basketRepository = basketRepository;
         _itemRepository = itemRepository;
     }
@@ -49,5 +52,7 @@ public class OrderService : IOrderService
         var order = new Order(basket.BuyerId, shippingAddress, items);
 
         await _orderRepository.AddAsync(order);
+
+        await _orderItemsReserver.ReserveAsync(items);
     }
 }

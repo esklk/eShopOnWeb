@@ -1,4 +1,5 @@
-﻿using Microsoft.eShopWeb.ApplicationCore.Interfaces;
+﻿using Microsoft.eShopWeb.ApplicationCore;
+using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.ApplicationCore.Services;
 using Microsoft.eShopWeb.Infrastructure.Data;
 using Microsoft.eShopWeb.Infrastructure.Data.Queries;
@@ -23,6 +24,8 @@ public static class ConfigureCoreServices
         services.AddSingleton<IUriComposer>(new UriComposer(configuration.Get<CatalogSettings>()));
         services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
         services.AddTransient<IEmailSender, EmailSender>();
+        services.AddScoped<IOrderItemsReserver, ServiceBusOrderItemsReserver>(s =>
+            new ServiceBusOrderItemsReserver(configuration.Get<OrderItemsReservingSettings>()));
 
         return services;
     }
