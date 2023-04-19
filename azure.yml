@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  eshopwebmvc:
+    image: cldx8acr.azurecr.io/web
+    environment:
+     - ASPNETCORE_ENVIRONMENT=Docker
+     - ASPNETCORE_URLS=http://+:80
+     - UseOnlyInMemoryDatabase=true   
+    ports:
+     - "80:80"
+  eshoppublicapi:
+    image: cldx8acr.azurecr.io/publicapi
+    environment:
+     - ASPNETCORE_ENVIRONMENT=Docker
+     - ASPNETCORE_URLS=http://+:80
+     - UseOnlyInMemoryDatabase=true   
+    ports:
+     - "443:80"
